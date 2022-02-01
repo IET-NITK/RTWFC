@@ -1,7 +1,5 @@
-import cv2
-import mediapipe as mp
-import time
 from Hand_Tracking import Coordinates
+import cv2
 
 cap = cv2.VideoCapture(0)
 
