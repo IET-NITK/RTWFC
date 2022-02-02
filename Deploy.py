@@ -5,6 +5,7 @@ cap = cv2.VideoCapture(0)
 
 while True:
     success, frame = cap.read()
+    frame = cv2.flip(frame, 1)
     frame = Coordinates(frame)
     
     cv2.imshow('Feed', frame)
