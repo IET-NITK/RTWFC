@@ -27,7 +27,7 @@ class HandDetector:
         return frame
 
     def FindPositions(self, frame, HandNo = 0):
-        lm_list = []
+        self.lm_list = []
         h, w, c = frame.shape
 
         if self.results.multi_hand_landmarks:
@@ -35,9 +35,21 @@ class HandDetector:
             Hand = self.results.multi_hand_landmarks[HandNo]
             for id, lm in enumerate(Hand.landmark):
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                lm_list.append([id, cx, cy])
+                self.lm_list.append([id, cx, cy])
 
-        return lm_list
+        return self.lm_list
+
+    def FindGesture(self):
+        fingers_id = [8, 12, 16, 20]
+        fingers = []
+
+        for id in fingers_id:
+            if self.lm_list[id][2] < self.lm_list[id - 2][2]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+
+        return fingers
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -52,7 +64,8 @@ def main():
         lm_list = detector.FindPositions(frame, 0)
 
         if len(lm_list):
-            print(lm_list[8])
+            fingers = detector.FindGesture()
+            print(fingers)
     
         cv2.imshow('Live', frame)
 
@@ -61,7 +74,6 @@ def main():
 
     cv2.destroyAllWindows()
     cap.release()
-
 
 if __name__ == "__main__":
     main()
