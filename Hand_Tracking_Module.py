@@ -26,7 +26,7 @@ class HandDetector:
 
         return frame
 
-    def FindPositions(self, frame, HandNo = 0, draw = True):
+    def FindPositions(self, frame, HandNo = 0):
         lm_list = []
         h, w, c = frame.shape
 
@@ -49,7 +49,7 @@ def main():
         frame = cv2.flip(frame, 1)
 
         frame = detector.FindHands(frame, True)
-        lm_list = detector.FindPositions(frame, 0, True)
+        lm_list = detector.FindPositions(frame, 0)
 
         if len(lm_list):
             print(lm_list[8])
